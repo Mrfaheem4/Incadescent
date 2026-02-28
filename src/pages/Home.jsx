@@ -1,5 +1,6 @@
 import Bigclock from "../Components/Bigclock";
 import Current from "../Components/Current";
+import Footer from "../Components/Footer";
 
 export default function Home({
   timezone,
@@ -16,10 +17,15 @@ export default function Home({
         setIs24h={setIs24h}
         dateTime={dateTime}
       />
-      <Current
-        cityName={cityInfo.cityName}
-        countryName={cityInfo.countryName}
-      />
+      <div className=" flex justify-between">
+        <Current
+          cityName={cityInfo.cityName}
+          countryName={cityInfo.countryName}
+        />
+      </div>
+      <div>
+        <Footer />
+      </div>
     </div>
   );
 }

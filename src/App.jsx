@@ -17,6 +17,7 @@ function App() {
   });
 
   useEffect(() => {
+    console.log("useEffect ran with city:", city);
     const zone = getCityTimezone(city);
     if (!zone) return;
 

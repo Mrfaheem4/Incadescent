@@ -14,6 +14,7 @@ const Navbar = ({ onSearch }) => {
       setResults([]);
       return;
     }
+    console.log(cityTimezones);
     const found = cityTimezones.cityMapping
       .filter((c) => c.city.toLowerCase().startsWith(val.toLowerCase()))
       .slice(0, 5);
@@ -30,7 +31,7 @@ const Navbar = ({ onSearch }) => {
   };
 
   return (
-    <nav className="z-50 flex items-center justify-between px-8 py-5 bg-gray-100">
+    <nav className=" border-white border-2 z-50 flex items-center justify-between px-8 py-5 bg-gray-100">
       {/* Logo */}
       <Link to="/" className="flex items-center gap-2">
         <div className="w-9 h-9 rounded-full bg-black flex items-center justify-center">
