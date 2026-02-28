@@ -1,22 +1,19 @@
+import cityTimezones from "city-timezones";
+
 const API_KEY = import.meta.env.VITE_TIMEZONE_API_KEY;
 
-export const getTimezone = async (city) => {
-  // Step 1: city name → coordinates
-  const geoRes = await fetch(
-    `https://nominatim.openstreetmap.org/search?q=${city}&format=json&limit=1`,
-    { headers: { "User-Agent": "TimeSpotApp" } },
+// Step 1: city name → timezone string (no API)
+export const getCityTimezone = (city) => {
+  const results = cityTimezones.lookupViaCity(city);
+  if (!results.length) return null;
+  return results[0].timezone;
+};
+
+// Step 2: timezone string → time data (API)
+export const getTimezone = async (zone) => {
+  const res = await fetch(
+    `https://api.timezonedb.com/v2.1/get-time-zone?key=${API_KEY}&format=json&by=zone&zone=${zone}`,
   );
-  const geoData = await geoRes.json();
-
-  if (!geoData.length) return null;
-
-  const { lat, lon } = geoData[0];
-
-  // Step 2: coordinates → timezone
-  const tzRes = await fetch(
-    `https://api.timezonedb.com/v2.1/get-time-zone?key=${API_KEY}&format=json&by=position&lat=${lat}&lng=${lon}`,
-  );
-  const tzData = await tzRes.json();
-
-  return tzData;
+  const data = await res.json();
+  return data;
 };

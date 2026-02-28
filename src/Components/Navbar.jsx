@@ -1,5 +1,12 @@
 import { Link } from "react-router-dom";
+
 const Navbar = ({ onSearch }) => {
+  const handleKey = (e) => {
+    if (e.key == "Enter") {
+      onSearch(e.target.value);
+    }
+  };
+
   return (
     <nav className="flex items-center justify-between px-8 py-5 bg-gray-100">
       {/* Logo */}
@@ -17,7 +24,7 @@ const Navbar = ({ onSearch }) => {
             <polyline points="12 6 12 12 16 14" />
           </svg>
         </div>
-        <span className="font-semibold text-black text-lg">Incandescent</span>
+        <span className="font-medium text-black text-lg">Incandescent</span>
       </Link>
 
       {/* Search */}
@@ -37,7 +44,7 @@ const Navbar = ({ onSearch }) => {
           type="text"
           placeholder="Search city..."
           className="bg-transparent outline-none text-sm text-gray-600 w-full"
-          onChange={(e) => onSearch(e.target.value)}
+          onKeyDown={handleKey}
         ></input>
       </div>
 
