@@ -1,14 +1,36 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import cityTimezones from "city-timezones";
+import AnimatedList from "../Animations/AnimatedList";
 
 const Navbar = ({ onSearch }) => {
-  const handleKey = (e) => {
-    if (e.key == "Enter") {
-      onSearch(e.target.value);
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState([]);
+
+  const handleChange = (e) => {
+    const val = e.target.value;
+    setQuery(val);
+    if (val.length < 2) {
+      setResults([]);
+      return;
+    }
+    const found = cityTimezones.cityMapping
+      .filter((c) => c.city.toLowerCase().startsWith(val.toLowerCase()))
+      .slice(0, 5);
+    setResults(found);
+  };
+
+  const handleSelect = (item) => {
+    const city = results.find((c) => `${c.city}, ${c.country}` === item);
+    if (city) {
+      onSearch(city.city);
+      setQuery(city.city);
+      setResults([]);
     }
   };
 
   return (
-    <nav className="flex items-center justify-between px-8 py-5 bg-gray-100">
+    <nav className="z-50 flex items-center justify-between px-8 py-5 bg-gray-100">
       {/* Logo */}
       <Link to="/" className="flex items-center gap-2">
         <div className="w-9 h-9 rounded-full bg-black flex items-center justify-center">
@@ -28,24 +50,39 @@ const Navbar = ({ onSearch }) => {
       </Link>
 
       {/* Search */}
-      <div className="flex items-center gap-2 bg-white rounded-full px-4 py-2 text-gray-400 text-sm w-48">
-        <svg
-          width="14"
-          height="14"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-        >
-          <circle cx="11" cy="11" r="8" />
-          <line x1="21" y1="21" x2="16.65" y2="16.65" />
-        </svg>
-        <input
-          type="text"
-          placeholder="Search city..."
-          className="bg-transparent outline-none text-sm text-gray-600 w-full"
-          onKeyDown={handleKey}
-        ></input>
+      <div className="relative">
+        <div className="flex items-center gap-2 bg-white rounded-full px-4 py-2 w-64">
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="gray"
+            strokeWidth="2"
+          >
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+          <input
+            type="text"
+            placeholder="Search city..."
+            value={query}
+            className="bg-transparent outline-none text-sm text-gray-600 w-full"
+            onChange={handleChange}
+          />
+        </div>
+
+        {/* Dropdown */}
+        {results.length > 0 && (
+          <div className="absolute top-12 left-0 z-50">
+            <AnimatedList
+              items={results.map((c) => `${c.city}, ${c.country}`)}
+              onItemSelect={handleSelect}
+              showGradients={false}
+              className="w-64"
+            />
+          </div>
+        )}
       </div>
 
       {/* Buttons */}

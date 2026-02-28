@@ -30,7 +30,7 @@ export default function BigClock({ timezone, dateTime, is24h, setIs24h }) {
   }, [timezone, is24h]);
 
   return (
-    <div className="bg-gray-100 px-8 pt-4 pb-6 ">
+    <div className="bg-gray-100 px-8 pt-4 pb-6 w-full  flex flex-col justify-end">
       <div className="text-[12rem] font-medium leading-none text-black text-center">
         {time}
       </div>

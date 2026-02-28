@@ -27,10 +27,8 @@ function App() {
     });
   }, [city]);
 
-  console.log(timezone, dateTime);
-
   return (
-    <div className="app">
+    <div className="app h-screen w-screen">
       <Navbar onSearch={(value) => setCity(value)} />
       <Routes>
         <Route

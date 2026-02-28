@@ -2,7 +2,7 @@ import TextType from "../Animations/TextType";
 
 export default function Current({ cityName, countryName }) {
   return (
-    <div className="bg-gray-100 px-8 py-6 border-white border-2">
+    <div className=" h-100vh iw-100vh bg-gray-100 px-8 py-6 border-white border-2">
       <TextType
         key={cityName}
         text={[`${cityName}, ${countryName}`]}
